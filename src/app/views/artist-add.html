@@ -1,0 +1,43 @@
+<div *ngIf="identity && identity.role =='ROLE_ADMIN' ">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ titulo }} </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div *ngIf="alertMessage" class="alert alert-info">
+                          {{ alertMessage }}
+                    </div>
+                    <form #formArtist="ngForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="">Nombre:</label>
+                            <input type="text" #name="ngModel" name="name" [(ngModel)]="artist.name" required class="form-control"/>
+                            <span *ngIf="!name.valid && name.touched">
+                                El nombre es obligatorio
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripcion:</label>
+                            <textarea #description="ngModel" name="description" [(ngModel)]="artist.description" required class="form-control" ></textarea>
+                            <span *ngIf="!description.valid && description.touched">
+                                La descripcción es obligatoria
+                            </span>
+                        </div>
+
+                        <input type="submit" value="Registrar" [disabled]="!formArtist.form.valid" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!identity || identity.role != 'ROLE_ADMIN' ">
+    <div class="col-md-12">
+        <h1>Error</h1>
+        <h4>No tienes permiso para entrar aqui</h4>
+    </div>
+</div>

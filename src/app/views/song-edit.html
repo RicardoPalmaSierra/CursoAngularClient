@@ -1,0 +1,57 @@
+<div class="col-md-6" *ngIf="identity && identity.role =='ROLE_ADMIN' ">
+        <h1>{{ titulo }}</h1>
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                    <div *ngIf="alertMessage" class="alert alert-info">
+                        {{ alertMessage }}
+                    </div>
+                    <form #formSongAdd="ngForm" (ngSubmit)="onSubmit()" >
+    
+                        <div class="form-group">
+                            <label for="">Número:</label>
+                            <input type="text" #number="ngModel" name="number" [(ngModel)]="song.number" required class="form-control"/>
+                            <span *ngIf="!number.valid && number.touched">
+                                La Numero es obligatorio
+                            </span>
+                        </div>
+    
+    
+                        <div class="form-group">
+                            <label for="">Titulo:</label>
+                            <input type="text" #name="ngModel" name="name" [(ngModel)]="song.name" required class="form-control"/>
+                            <span *ngIf="!name.valid && name.touched">
+                                El Titulo es obligatorio
+                            </span>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="">Duración:</label>
+                            <input type="text" #duration="ngModel" name="duration" [(ngModel)]="song.duration" required class="form-control"/>
+                            <span *ngIf="!duration.valid && duration.touched">
+                                La Duración es obligatorio
+                            </span>
+                        </div>
+    
+                        <div class="form-group" *ngIf="is_edit">
+                            <div class="song_file_for_edit" *ngIf="song.file && song.file != null">
+                                <audio controls>
+                                    <source src="{{ url + 'get-file-song/' + song.file }}" type="audio/mpeg"> 
+                                        El navegador no soporta audio
+                                </audio>
+                            </div>
+                            <label for="">Subir canción:</label>
+                            <input type="file" placeholder="Subir fillero..." (change)="fileChangeEvent($event)">
+                        </div>
+    
+                        <input type="submit" value="Actualizar canción" [disabled]="!formSongAdd.form.valid" class="btn btn-primary">
+    
+    
+                    </form>
+            </div>
+        </div>
+    
+    </div>
+    <div class="col-md-6" *ngIf="!identity || identity.role != 'ROLE_ADMIN' ">
+        <h2>Opps!! No tienes permiso para esta sección</h2>
+    </div>

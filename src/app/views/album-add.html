@@ -1,0 +1,48 @@
+<div *ngIf="identity && identity.role == 'ROLE_ADMIN'">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ titulo }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div *ngIf="alertMessage" class="alert alert-info">
+                        {{ alertMessage }}
+                    </div>
+                    <form #formAlbum="ngForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="">Nombre:</label>
+                            <input type="text" #title="ngModel" name="title" [(ngModel)]="album.title" required class="form-control"/>
+                            <span *ngIf="!title.valid && title.touched">
+                                El Titulo es obligatorio
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Descripcion:</label>
+                            <textarea #description="ngModel" name="description" [(ngModel)]="album.description" required class="form-control" ></textarea>
+                            <span *ngIf="!description.valid && description.touched">
+                                La descripcción es obligatoria
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                                <label for="">Año:</label>
+                                <input type="number" #year="ngModel" name="year" [(ngModel)]="album.year" required class="form-control" />
+                                <span *ngIf="!year.valid && year.touched">
+                                    El año es obligatorio
+                                </span>
+                            </div>
+            
+                        <input type="submit" value="Guardar Album" [disabled]="!formAlbum.form.valid" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!identity || identity.role !=='ROLE_ADMIN'">
+    <h1>No tienes permiso para esta sección</h1>
+</div>
